@@ -8,9 +8,9 @@ const siteMetadata = {
   theme: 'system', // system, dark or light
   siteUrl: 'https://tailwind-nextjs-starter-blog.vercel.app',
   siteRepo: 'https://github.com/roycefanproxy/blog',
-  // siteLogo: '/static/images/favicon-32x32.png',
+  siteLogo: '/static/images/favicon-32x32.png',
   // image: '/static/images/avatar.png',
-  // socialBanner: '/static/images/twitter-card.png',
+  socialBanner: null,
   email: 'royce.fan.proxy@gmail.com',
   github: 'https://github.com/roycefanproxy',
   twitter: null,
@@ -37,7 +37,7 @@ const siteMetadata = {
     // content security policy in the `next.config.js` file.
     // Select a provider and use the environment variables associated to it
     // https://vercel.com/docs/environment-variables
-    provider: null, // supported providers: giscus, utterances, disqus
+    provider: 'giscus', // supported providers: giscus, utterances, disqus
     giscusConfig: {
       // Visit the link below, and follow the steps in the 'configuration' section
       // https://giscus.app/
@@ -45,7 +45,7 @@ const siteMetadata = {
       repositoryId: process.env.NEXT_PUBLIC_GISCUS_REPOSITORY_ID,
       category: process.env.NEXT_PUBLIC_GISCUS_CATEGORY,
       categoryId: process.env.NEXT_PUBLIC_GISCUS_CATEGORY_ID,
-      mapping: 'pathname', // supported options: pathname, url, title
+      mapping: 'url', // supported options: pathname, url, title
       reactions: '1', // Emoji reactions: 1 = enable / 0 = disable
       // Send discussion metadata periodically to the parent window: 1 = enable / 0 = disable
       metadata: '0',
@@ -78,4 +78,4 @@ const siteMetadata = {
   },
 }
 
-export default siteMetadata
+module.exports = siteMetadata

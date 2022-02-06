@@ -1,0 +1,264 @@
+---
+title: Lock Free 101
+date: 2020-07-19
+description: Brief Introduction to lock free programming and ABA problem.
+draft: false
+tags:
+  - lock free
+  - concurrent
+  - multicore programming
+  - multi-threaded programming
+---
+
+> The way the processor industry is going, is to add more and more cores,
+> but nobody knows how to program those things.
+> I mean, 2, yeah; 4, not really; eight, forget it.
+>
+> <div style={{ textAlign: 'right' }}>
+>   {' '}
+>   -- <i>Steve Jobs</i>
+> </div>
+
+<br />
+
+Multicore programming is not as easy as it sounds. Since I began to learn multi-core programming
+(to be specific, multi-threaded programming), the synchronisation of multiple threads relies on locking and mutex.
+
+The use case of locking mutex is simple:
+
+Let's say there is a list shared by multiple thread, and each thread needs to perform certain action with the list,
+it can be adding element, it can be removing element, checking size, whatever.
+Well, to synchronise the list modification process, threads are required to lock a mutex.
+If locking is successful, the thread proceed to acts towards list;
+If locking fails, the thread fall into sleep until mutex become available.
+
+### Sweet!
+
+<br />
+<br />
+
+### Multi-threaded programming! See you in the next episode!
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+#### Wait.....
+
+<br />
+
+The story isn't over...
+
+Back to the list mentioned, we knows that using mutex to synchronise the list modification works.
+But when the parallelism of the list modification scales up, we have a new issue, **contention**.
+
+You see, if there exists 100 of threads trying to do something to the list at the same time,
+only one of them get access to it thanks to the mutex.
+However, it also lets remaining 99 threads fall to sleep until the mutex lock is released.
+You might argue that **_"Well I don't bother with that trade off since I have a machine that support 100 of threads to run in parallel."_**,
+**Dude**, you already need 100 of threads to do your job, sooner or later you will bother with this trade off.
+
+**_"Ok then, so how about we use multiple mutex?"_**
+
+Well, that may work. it depends on how you use the list.
+If the list shared accross 100 of threads is used as queue, which is,
+always adding element from end, and extracting element from front, then we may design an algorithm to lock only 1 mutex when adding/deleting element from the list,
+with an exceptional case where list only has 1 element. In that case, both locks are required to be locked.
+
+\*\*\*"Great! So I learnt that data sharing accross multiple threads requires some tune to gain performance. Thanks!"
+
+<br />
+
+---
+
+<br />
+
+#### You think that solves all the problem?
+
+#### Of course... _No_
+
+<br />
+<br />
+
+In a program that requires resource sharing accross multiple threads, most likely there are more than one
+resources being shared as well. Which introduces more locks to the logic flow, in turn, increases the chance
+of getting **_Dead lock_**.
+
+A very simple scenario of deadlock may occurs is as follow:
+
+1. Imagine there are 2 threads, A & B, and 2 resources being shared, X & Y, guarded by a mutex respectively.
+2. In execution of thread A, resource X needs to be acquired then subsequently resource Y.
+3. On the other hand, thread B needs to acquire resource Y first, then resource X.
+4. When case _2_ and _3_ happens at the same time...
+5. #### Pfffff! We got Dead lock!
+
+<br />
+<br />
+
+Let's be frank, this kind of dead lock is quite easy to solve: you reorder the lock acquiring to consistent sequence.
+That is, always lock X then lock Y, or, always lock Y then X.
+But this may introduces overhead: if the logic in thread B only requires resouce X in the very end,
+locking X in the first place reduces parallelism of the program. In this case, 50% of parallelism gone!
+
+Now, can we do **_better_**?
+
+"Fxxk it, let's throw all the locks away then."
+
+##### That's right, let's get rid of all locks!!!
+
+"Wait, what? How do we avoid resouce corruption and race condition and other shit?"
+
+Well, we can design the algorithm in a way that the logic of algorithm itself guarantees execution order is correct
+without the involve any mutex locking with the help of one tool -- **Atomic**
+
+<br />
+<br />
+
+---
+
+<br />
+<br />
+
+### What is Atomicity?
+
+<br />
+
+An atomic operation is an indivisible and irreducible action.
+Let's look at an example:
+
+```cpp {3, 11, 20} showLineNumbers
+// Non-atomic Assignment
+
+int global_var = 0;
+
+void foo(std::integral auto v) {
+  auto var = 100;
+  /*
+   * Doing some task...
+   *
+   */
+  global_var += 10;
+}
+
+int bar(std::integral auto v) {
+  auto var = 50;
+  /*
+   * Doing some task with var...
+   *
+   */
+  return var - global_var;
+}
+```
+
+As the example above, `var` was assigned value `10`, simple. On the language level, this assignment seems like a single option.
+However, at the lower level, this assignment may involve multiple operation!
+
+Now, imagine 1 thread calls the `foo()` and then starts executing and preempted in the middle of executing logic at line `7`.
+And then, here comes another thread calling the `bar()` function. What do you think the actual value it reads from `global_var`?
+
+The answer is -- **Undefined**, this is _race condition_.
+
+To avoid this, we need to make use of `<atomic>` library and modify the code abit as follow:
+
+```cpp {4, 13, 22} showLineNumbers
+// Atomic Assignment
+#include <atomic>
+
+std::atomic<int> global_var{10};
+void foo(std::integral auto v) {
+  auto var = 100;
+
+  /*
+   * Doing some task with var...
+   *
+   */
+
+  global_var.fech_add(10, std::memory_order::release);
+}
+
+int bar(std::integral auto v) {
+  auto var = 50;
+  /*
+   * Doing some task...
+   *
+   */
+  return var - global_var.load(std::memory_order::consume);
+}
+```
+
+Duh, with the help of atomic type, the race condition no longer exist as it guarantees every read/write operation to it is always indivisible.
+So if a thread executing modified version of `foo()`, `global_var` is guarantees to be modified in single operation,
+and so does `global_var` reading in `bar()` not get read in intermidiate state.
+
+<br />
+
+---
+
+<br />
+
+So now, since the program does not has any lock (even though under the hood there is still lock somewhere), it's lock free!
+
+##### This is Lock-Free Programming!
+
+We will dive deeper into discussion about the challenges & pitfalls to tackle when practicing lock-free programming.
+
+That's it for today.
