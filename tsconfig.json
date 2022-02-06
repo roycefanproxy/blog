@@ -23,6 +23,12 @@
       "@/css/*": ["css/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "data/projectsData.js",
+    "data/siteMetadata.js"
+  ],
   "exclude": ["node_modules"]
 }

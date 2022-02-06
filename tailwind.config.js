@@ -22,6 +22,7 @@ module.exports = {
       fontFamily: {
         sans: [
           'iA Writer Quattro',
+          'iA Writer Mono',
           'Noto Sans SC',
           'Noto Sans TC',
           ...defaultTheme.fontFamily.sans,
