@@ -1,7 +1,12 @@
 import '@/css/tailwind.css'
 import '@/css/prism.css'
 
-import '@fontsource/inter/variable-full.css'
+// import '@fontsource/inter/variable-full.css'
+import '@fontsource/ia-writer-quattro'
+import '@fontsource/ia-writer-mono'
+import '@fontsource/noto-sans-sc'
+import '@fontsource/noto-sans-tc'
+// import '@fontsource/ia-writer-duo'
 
 import { ThemeProvider } from 'next-themes'
 import type { AppProps } from 'next/app'
