@@ -24,6 +24,12 @@ const DisqusComponent = dynamic(
   },
   { ssr: false }
 )
+const CusdisComponent = dynamic(
+  () => {
+    return import('@/components/comments/Cusdis')
+  },
+  { ssr: false }
+)
 
 const Comments = ({ frontMatter }: Props) => {
   let term
@@ -43,6 +49,9 @@ const Comments = ({ frontMatter }: Props) => {
   }
   return (
     <div id="comment">
+      {siteMetadata.comment && siteMetadata.comment.provider === 'cusdis' && (
+        <CusdisComponent frontMatter={frontMatter} />
+      )}
       {siteMetadata.comment && siteMetadata.comment.provider === 'giscus' && (
         <GiscusComponent mapping={term} />
       )}

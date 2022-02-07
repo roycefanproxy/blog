@@ -37,7 +37,16 @@ const siteMetadata = {
     // content security policy in the `next.config.js` file.
     // Select a provider and use the environment variables associated to it
     // https://vercel.com/docs/environment-variables
-    provider: 'giscus', // supported providers: giscus, utterances, disqus
+    provider: 'cusdis', // supported providers: giscus, utterances, disqus, cusdis
+    cusdisConfig: {
+      // Visit the link below, and follow the steps in the 'configuration' section
+      // https://giscus.app/
+      host: 'https://comment.roycefan95.page',
+      appID: '2bec6e02-7788-4b5e-a5f9-581fbb1552ab',
+      theme: 'light',
+      // theme when dark mode
+      darkTheme: 'dark',
+    },
     giscusConfig: {
       // Visit the link below, and follow the steps in the 'configuration' section
       // https://giscus.app/
