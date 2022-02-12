@@ -17,7 +17,7 @@ const siteMetadata = {
   linkedin: 'https://sg.linkedin.com/in/royce-fan',
   facebook: null,
   youtube: null,
-  locale: 'en-US',
+  locale: 'en-SG',
   analytics: {
     // supports plausible, simpleAnalytics, umami or googleAnalytics
     plausibleDataDomain: '', // e.g. tailwind-nextjs-starter-blog.vercel.app
