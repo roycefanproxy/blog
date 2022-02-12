@@ -27,7 +27,6 @@ module.exports = {
           'Noto Sans TC',
           ...defaultTheme.fontFamily.sans,
         ],
-        mono: ['iA Writer Mono', 'Noto Sans SC', 'Noto Sans TC', ...defaultTheme.fontFamily.mono],
       },
       colors: {
         // primary: colors.teal,
