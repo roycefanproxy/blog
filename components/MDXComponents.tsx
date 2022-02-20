@@ -8,6 +8,8 @@ import Image from './Image'
 import TOCInline from './TOCInline'
 import Pre from './Pre'
 import { BlogNewsletterForm } from './NewsletterForm'
+import Zoom, { Controlled as ControlledZoom } from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
 
 const Wrapper: React.ComponentType<{ layout: string }> = ({ layout, ...rest }) => {
   const Layout = require(`../layouts/${layout}`).default
@@ -53,6 +55,8 @@ export const MDXComponents: ComponentMap = {
   wrapper: Wrapper,
   //@ts-ignore
   BlogNewsletterForm,
+  Zoom,
+  ControlledZoom,
 }
 
 interface Props {
