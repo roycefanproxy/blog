@@ -97,9 +97,20 @@ app.prepare().then(() => {
   reloadRoute.use(express.json())
   reloadRoute.all('/', (req, res) => {
     // log message if present
-    const msg = req.body.message
-    const color = req.body.color
-    msg && console.log(color ? chalk[color](msg) : msg)
+    const { body } = req
+    if (!body) {
+      res.end('Reload failed')
+      return
+    }
+    const { message: msg, color } = body
+    if (!color) {
+      res.end('Reload failed')
+      return
+    }
+    const chalkColor = chalk[color]
+
+    const consoleMsg = chalkColor ? chalkColor(msg) : msg
+    msg && console.log(consoleMsg)
 
     // reload the nextjs app
     app.server.hotReloader.send('building')
