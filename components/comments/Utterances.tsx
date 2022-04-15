@@ -3,7 +3,7 @@ import { useTheme } from 'next-themes'
 
 import siteMetadata from '@/data/siteMetadata'
 
-interface Props {
+export interface Props {
   issueTerm: string
 }
 

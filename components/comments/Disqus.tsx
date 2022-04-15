@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import siteMetadata from '@/data/siteMetadata'
 import { PostFrontMatter } from 'types/PostFrontMatter'
 
-interface Props {
+export interface Props {
   frontMatter: PostFrontMatter
 }
 

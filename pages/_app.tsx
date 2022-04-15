@@ -22,6 +22,8 @@ const isDevelopment = process.env.NODE_ENV === 'development'
 const isSocket = process.env.SOCKET
 
 export default function App({ Component, pageProps }: AppProps) {
+  // @ts-ignore
+  const X = Component as unknown as React.FC
   return (
     <ThemeProvider attribute="class" defaultTheme={siteMetadata.theme} enableColorScheme={false}>
       <Head>
@@ -30,7 +32,7 @@ export default function App({ Component, pageProps }: AppProps) {
       {isDevelopment && isSocket && <ClientReload />}
       <Analytics />
       <LayoutWrapper>
-        <Component {...pageProps} />
+        <X {...pageProps} />
       </LayoutWrapper>
     </ThemeProvider>
   )
