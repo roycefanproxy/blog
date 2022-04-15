@@ -4,7 +4,7 @@ import { useTheme } from 'next-themes'
 import siteMetadata from '@/data/siteMetadata'
 import { PostFrontMatter } from 'types/PostFrontMatter'
 
-interface Props {
+export interface Props {
   frontMatter: PostFrontMatter
 }
 

@@ -81,7 +81,7 @@ export async function getFileBySlug(type: 'authors' | 'blog', slug: string | str
         rehypeSlug,
         rehypeAutolinkHeadings,
         rehypeKatex,
-        [rehypeCitation, { path: path.join(root, 'data') }],
+        [rehypeCitation, { path: path.join(root, 'data'), csl: 'vancouver' }],
         [rehypePrismPlus, { ignoreMissing: true }],
         rehypePresetMinify,
       ]
