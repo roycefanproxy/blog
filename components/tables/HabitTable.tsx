@@ -161,14 +161,6 @@ const data = [
   },
 ]
 
-type Expandable = {
-  row: {
-    canExpand: boolean
-    isExpanded: boolean
-    getToggleRowExpandedProps: () => void
-  }
-}
-
 const columns: TableGroupColumn<typeof data[number]>[] = [
   {
     id: 'habit-expander',
