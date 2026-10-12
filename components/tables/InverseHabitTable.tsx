@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import GroupTable, {
   RenderCell,
@@ -59,7 +61,7 @@ const data = [
   },
 ]
 
-const columns: TableGroupColumn<typeof data[number]>[] = [
+const columns: TableGroupColumn<(typeof data)[number]>[] = [
   {
     id: 'inverse-habit-expander',
     Cell: RenderExpandableCell,
