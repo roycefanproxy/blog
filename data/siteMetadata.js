@@ -10,7 +10,7 @@ const siteMetadata = {
   siteUrl: 'https://www.roycefan95.page',
   siteRepo: 'https://github.com/roycefanproxy/blog',
   siteLogo: `${process.env.BASE_PATH || ''}/static/favicons/favicon-32x32.png`,
-  // socialBanner: `${process.env.BASE_PATH || ''}/static/images/twitter-card.png`,
+  socialBanner: `${process.env.BASE_PATH || ''}/static/favicons/android-chrome-512x512.png`,
   email: 'royce.fan.proxy@gmail.com',
   github: 'https://github.com/roycefanproxy',
   linkedin: 'https://sg.linkedin.com/in/royce-fan',
