@@ -1,6 +1,24 @@
+'use client'
+
 import React from 'react'
 import { useTable, Column, useExpanded, Hooks, CellProps } from 'react-table'
-import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/outline'
+
+const ChevronIcon = ({ up }: { up: boolean }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    strokeWidth={2}
+    className="h-3 w-3"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d={up ? 'M5 15l7-7 7 7' : 'M19 9l-7 7-7-7'}
+    />
+  </svg>
+)
 
 type TableGroupColumn<Data extends Record<string, unknown>> = Column<Data> & { className?: string }
 
@@ -41,7 +59,7 @@ type Expandable = {
   row: {
     canExpand: boolean
     isExpanded: boolean
-    getToggleRowExpandedProps: () => unknown
+    getToggleRowExpandedProps: () => Record<string, unknown>
   }
 }
 
@@ -59,11 +77,7 @@ const RenderExpandableCell = <Data extends Record<string, unknown>>({
   // to build the toggle for expanding a row
   row.canExpand ? (
     <div {...row.getToggleRowExpandedProps()}>
-      {row.isExpanded ? (
-        <ChevronUpIcon className="h-3 w-3" />
-      ) : (
-        <ChevronDownIcon className="h-3 w-3" />
-      )}
+      <ChevronIcon up={row.isExpanded} />
     </div>
   ) : null
 
