@@ -8,18 +8,12 @@ import SectionContainer from '@/components/SectionContainer'
 import Image from '@/components/Image'
 import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
+import formatDate from '@/lib/formatDate'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
 
 const editUrl = (path) => `${siteMetadata.siteRepo}/blob/main/data/${path}`
 const discussUrl = (path) =>
   `https://mobile.twitter.com/search?q=${encodeURIComponent(`${siteMetadata.siteUrl}/${path}`)}`
-
-const postDateTemplate: Intl.DateTimeFormatOptions = {
-  weekday: 'long',
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-}
 
 interface LayoutProps {
   content: CoreContent<Blog>
@@ -44,9 +38,7 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                 <div>
                   <dt className="sr-only">Published on</dt>
                   <dd className="text-base leading-6 font-medium text-gray-500 dark:text-gray-400">
-                    <time dateTime={date}>
-                      {`${new Date(date).toLocaleDateString(siteMetadata.locale, postDateTemplate)} | ${readingTime.text}`}
-                    </time>
+                    <time dateTime={date}>{`${formatDate(date)} | ${readingTime.text}`}</time>
                   </dd>
                 </div>
               </dl>

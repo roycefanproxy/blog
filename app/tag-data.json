@@ -2,11 +2,11 @@
   "reading": 1,
   "review": 1,
   "book-sharing": 1,
+  "life": 2,
+  "job-review": 1,
   "lock-free": 1,
   "concurrent": 1,
   "multicore-programming": 1,
   "multi-threaded-programming": 1,
-  "ported": 1,
-  "life": 2,
-  "job-review": 1
+  "ported": 1
 }
